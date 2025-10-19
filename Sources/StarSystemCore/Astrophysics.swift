@@ -1,13 +1,13 @@
 import Foundation
 
-struct StellarEvolution {
-    static func mainSequenceLifetime(forMass mass: Double, metallicity: Double) -> Double {
+public struct StellarEvolution {
+    public static func mainSequenceLifetime(forMass mass: Double, metallicity: Double) -> Double {
         // Lifetime in Gyr, using a mass-metallicity scaling to mimic metallicity dependence
         let metallicityFactor = max(0.3, 1.0 - 0.2 * metallicity)
         return metallicityFactor * 10.0 * pow(mass, -2.5)
     }
 
-    static func luminosity(forMass mass: Double, evolutionaryStage: StellarStage) -> Double {
+    public static func luminosity(forMass mass: Double, evolutionaryStage: StellarStage) -> Double {
         switch evolutionaryStage {
         case .mainSequence:
             if mass < 0.43 {
@@ -28,7 +28,7 @@ struct StellarEvolution {
         }
     }
 
-    static func effectiveTemperature(forMass mass: Double, evolutionaryStage: StellarStage) -> Double {
+    public static func effectiveTemperature(forMass mass: Double, evolutionaryStage: StellarStage) -> Double {
         switch evolutionaryStage {
         case .mainSequence:
             if mass < 0.5 {
@@ -51,17 +51,17 @@ struct StellarEvolution {
         }
     }
 
-    static func radius(luminosity: Double, effectiveTemperature: Double) -> Double {
+    public static func radius(luminosity: Double, effectiveTemperature: Double) -> Double {
         let solarTemperature = 5778.0
         return sqrt(luminosity) * pow(solarTemperature / effectiveTemperature, 2.0)
     }
 
-    static func absoluteMagnitude(luminosity: Double) -> Double {
+    public static func absoluteMagnitude(luminosity: Double) -> Double {
         let solarAbsoluteMagnitude = 4.83
         return solarAbsoluteMagnitude - 2.5 * log10(luminosity)
     }
 
-    static func spectralType(forTemperature temperature: Double) -> String {
+    public static func spectralType(forTemperature temperature: Double) -> String {
         switch temperature {
         case ..<3500:
             return "M"
@@ -81,7 +81,7 @@ struct StellarEvolution {
     }
 }
 
-enum StellarStage: String, Codable, Sendable {
+public enum StellarStage: String, Codable, Sendable {
     case mainSequence
     case subGiant
     case redGiant

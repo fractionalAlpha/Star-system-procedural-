@@ -37,13 +37,20 @@ swift run Star-system-procedural- --component bulge --radius 2.0 --distance 8.0 
 
 The program prints JSON describing every generated stellar system, including spatial coordinates, velocities, stellar parameters, magnitudes, extinction, and any companions.
 
+## SwiftUI App
+
+A SwiftUI front-end is also available on Apple platforms. It exposes the same sampling controls in an interactive form and renders the generated systems in a list.
+
+```bash
+swift run StarSystemProceduralUI
+```
+
+> **Note:** The SwiftUI target requires macOS 13 or iOS 17 (or newer) where the `SwiftUI` framework is available.
+
 ## Project Structure
 
-- `Sources/Star-system-procedural-/main.swift` – CLI entry point and orchestration
-- `Sources/Star-system-procedural-/Astrophysics.swift` – Stellar evolution approximations
-- `Sources/Star-system-procedural-/GalacticModels.swift` – Core data models
-- `Sources/Star-system-procedural-/StarFormation.swift` – Galactic component distributions and dust model
-- `Sources/Star-system-procedural-/IMF.swift` – Initial mass function sampler
-- `Sources/Star-system-procedural-/Random.swift` – Seedable random number generator utilities
+- `Sources/StarSystemCore/` – Shared astrophysics models, samplers, and generator logic used by both executables
+- `Sources/Star-system-procedural-/main.swift` – CLI entry point wiring arguments into the core generator
+- `Sources/StarSystemProceduralUI/StarSystemProceduralUIApp.swift` – SwiftUI interface for interactive exploration
 
-These modules implement the extended plan discussed previously, enabling a reproducible, physics-informed stellar population generator.
+These modules implement the extended plan discussed previously, enabling a reproducible, physics-informed stellar population generator with both command-line and graphical front-ends.
