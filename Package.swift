@@ -5,10 +5,29 @@ import PackageDescription
 
 let package = Package(
     name: "Star-system-procedural-",
+    platforms: [
+        .macOS(.v13),
+        .iOS(.v17)
+    ],
+    products: [
+        .library(name: "StarSystemCore", targets: ["StarSystemCore"]),
+        .executable(name: "Star-system-procedural-", targets: ["StarSystemCLI"]),
+        .executable(name: "StarSystemProceduralUI", targets: ["StarSystemUI"])
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "StarSystemCore",
+            path: "Sources/StarSystemCore"
+        ),
         .executableTarget(
-            name: "Star-system-procedural-"),
+            name: "StarSystemCLI",
+            dependencies: ["StarSystemCore"],
+            path: "Sources/Star-system-procedural-"
+        ),
+        .executableTarget(
+            name: "StarSystemUI",
+            dependencies: ["StarSystemCore"],
+            path: "Sources/StarSystemProceduralUI"
+        )
     ]
 )
