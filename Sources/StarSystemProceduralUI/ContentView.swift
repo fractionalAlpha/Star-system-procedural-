@@ -66,6 +66,22 @@ struct ContentView: View {
     }
 }
 
+private enum SimulationNumberFormatter {
+    static let shared: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.allowsFloats = true
+        formatter.generatesDecimalNumbers = false
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 6
+        formatter.usesGroupingSeparator = false
+        formatter.isLenient = true
+        formatter.zeroSymbol = nil
+        formatter.nilSymbol = ""
+        return formatter
+    }()
+}
+
 private struct SimulationNumberRow<Value: BinaryFloatingPoint>: View where Value.Stride: BinaryFloatingPoint {
     let title: String
     @Binding var value: Value
@@ -74,7 +90,7 @@ private struct SimulationNumberRow<Value: BinaryFloatingPoint>: View where Value
         HStack {
             Text(title)
             Spacer()
-            TextField(title, value: doubleBinding, formatter: Self.numberFormatter)
+            TextField(title, value: doubleBinding, formatter: SimulationNumberFormatter.shared)
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 160)
 #if os(iOS)
@@ -93,19 +109,6 @@ private struct SimulationNumberRow<Value: BinaryFloatingPoint>: View where Value
         )
     }
 
-    private static let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.allowsFloats = true
-        formatter.generatesDecimalNumbers = false
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 6
-        formatter.usesGroupingSeparator = false
-        formatter.isLenient = true
-        formatter.zeroSymbol = nil
-        formatter.nilSymbol = ""
-        return formatter
-    }()
 }
 
 private struct SimulationTextRow: View {
