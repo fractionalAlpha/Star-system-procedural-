@@ -74,7 +74,7 @@ private struct SimulationNumberRow<Value: BinaryFloatingPoint>: View where Value
         HStack {
             Text(title)
             Spacer()
-            TextField(title, value: $value, format: .number)
+            TextField(title, value: doubleBinding, formatter: Self.numberFormatter)
                 .multilineTextAlignment(.trailing)
                 .frame(maxWidth: 160)
 #if os(iOS)
@@ -82,6 +82,30 @@ private struct SimulationNumberRow<Value: BinaryFloatingPoint>: View where Value
 #endif
         }
     }
+
+    private var doubleBinding: Binding<Double?> {
+        Binding<Double?>(
+            get: { Double(value) },
+            set: { newValue in
+                guard let newValue else { return }
+                value = Value(newValue)
+            }
+        )
+    }
+
+    private static let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.allowsFloats = true
+        formatter.generatesDecimalNumbers = false
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 6
+        formatter.usesGroupingSeparator = false
+        formatter.isLenient = true
+        formatter.zeroSymbol = nil
+        formatter.nilSymbol = ""
+        return formatter
+    }()
 }
 
 private struct SimulationTextRow: View {
